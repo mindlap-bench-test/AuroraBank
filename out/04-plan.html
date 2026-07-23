@@ -1,0 +1,168 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora Bank — Delivery Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ml-red:#a20b0b; --ml-red-dark:#610707; --ml-red-light:#e55e5e; --ml-red-lightest:#f6c9c9;
+  --ml-blue:#1c5386; --ml-blue-dark:#193856; --ml-blue-light:#1e5f9b; --ml-blue-lighter:#8ba8c9; --ml-blue-lightest:#dce3eb;
+  --ml-grey:#9c9c9c; --ml-grey-dark:#5c5c5c; --ml-grey-light:#bcbcbc; --ml-grey-lightest:#e4e4e4; --ml-grey-divider:#d9d9d9;
+  --black-900:#1b1b1b; --black-800:#212121; --black-700:#2f2f2f; --black-400:#4e4e4e;
+  --white-100:#fefefe; --white-200:#f7f9fa; --white-300:#eceef0;
+  --u-danger:#dc2626; --u-success:#16a34a; --u-warning:#f59e0b;
+  --status-open:#3d4552; --status-todo:#4b24d6; --status-inprogress:#0080b8;
+  --status-inreview:#b86a00; --status-done:#0d8a3a; --status-cancelled:#8a8a8a; --status-failed:#c0392b;
+  --type-story:#c98200; --type-bug:#b04a2c; --type-lap:#7048a0; --type-review:#2b7a7d; --type-agent:#1d8b6d;
+  --bg:var(--white-300); --paper:var(--white-200); --card:var(--white-100);
+  --ink:var(--black-900); --ink-soft:var(--black-400); --ink-faint:var(--ml-grey-dark);
+  --line:var(--ml-grey-divider); --line-soft:var(--ml-grey-lightest);
+  --code-bg:var(--white-200); --code-ink:var(--black-700);
+  --fire:var(--ml-red); --fire-bg:color-mix(in srgb, var(--ml-red) 7%, var(--white-100));
+  --cloud:var(--ml-blue); --cloud-bg:var(--ml-blue-lightest);
+  --good:#157f3b; --good-bg:color-mix(in srgb, var(--u-success) 12%, var(--white-100));
+  --warn:#8a5a00; --warn-bg:color-mix(in srgb, var(--u-warning) 16%, var(--white-100));
+  --bad:#b3241b; --bad-bg:color-mix(in srgb, var(--u-danger) 8%, var(--white-100));
+  --shadow:0 1px 2px rgba(27,27,27,.05), 0 4px 14px rgba(27,27,27,.05);
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --display:"Exo 2","Inter",ui-sans-serif,system-ui,sans-serif;
+  --pill-alpha:14%;
+  --accent:#0f6e5c; --accent-bg:#dcefe9;
+}
+@media (prefers-color-scheme:dark){ :root{
+  --bg:var(--black-900); --paper:var(--black-800); --card:#202020;
+  --ink:var(--white-200); --ink-soft:#cfcfcf; --ink-faint:var(--ml-grey);
+  --line:#333; --line-soft:#2a2a2a; --code-bg:#161616; --code-ink:#d6d6d6;
+  --fire:var(--ml-red-light); --cloud:var(--ml-blue-light);
+  --good:#3fbf6f; --warn:#e0a53a; --bad:#ef6b60;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 6px 20px rgba(0,0,0,.4); --pill-alpha:22%;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.62;font-size:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 64px}
+h1,h2,h3{font-family:var(--display);line-height:1.2}
+h1{font-size:1.7rem;margin:.2em 0 .1em} h2{font-size:1.2rem;margin:2rem 0 .6rem} h3{font-size:1rem;margin:0 0 .4em}
+a{color:var(--fire);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fire) 40%,transparent)}
+code{font-family:var(--mono);font-size:.86em;background:var(--code-bg);border:1px solid var(--line-soft);border-radius:5px;padding:.06em .34em;color:var(--code-ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:1rem 0;box-shadow:var(--shadow)}
+.card.accent{border-left:3px solid var(--accent)}
+.pill{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.03em;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.pill.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-bg)}
+.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-bg)}
+.pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-bg)}
+.assume{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-bg);
+  display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:600;padding:1px 7px;border:1px solid;border-radius:999px}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+.table-wrap{overflow-x:auto}
+.lede{color:var(--ink-soft);font-size:1.02rem;margin:.3em 0}
+.meta{color:var(--ink-faint);font-size:.8rem;margin:.2em 0 0}
+.need{margin:.6em 0 0;font-size:.86rem;color:var(--ink-soft);border-left:2px solid var(--accent);padding-left:.6em}
+.timeline{list-style:none;padding:0;margin:1rem 0;border-left:2px solid var(--line);}
+.timeline li{position:relative;padding:2px 0 18px 20px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--card)}
+.timeline .h{font-family:var(--display);font-weight:700;color:var(--accent);font-size:.95rem;margin:0 0 .2em}
+.laps{padding-left:1.1em}
+.laps li{margin:.5em 0}
+footer.ledger ul{padding-left:1.1em}
+footer.ledger li{margin:.35em 0}
+</style></head><body><main class="wrap">
+
+<header>
+  <h1><span style="color:var(--accent)">Aurora Bank</span> — Delivery Plan</h1>
+  <p class="lede">A proposed path from the prototype to a working system — first two weeks, then 30/60/90.</p>
+  <p class="meta">Discovery draft · illustrative · to validate with Aurora Bank.</p>
+</header>
+
+<h2>First two weeks</h2>
+
+<div class="card accent">
+  <h3>Week 1 — <span class="assume">assume: scope</span> wire FD-compare to live rates</h3>
+  <p>Point the prototype's FD-Compare-and-Book flow at the real <b>Rates Service</b> so tenure comparisons use current rates instead of sample data.</p>
+  <p class="need"><strong>From you:</strong> read access to the Rates Service (sandbox or read-only) and confirmation of its update cadence. <span class="assume">assume: sandbox exists</span></p>
+</div>
+
+<div class="card accent">
+  <h3>Week 1 — <span class="assume">assume: scope</span> ground card recommendations in real terms</h3>
+  <p>Wire Card Recommend-and-Apply to current Aurora Voyage / Everyday / Infinia terms and eligibility criteria, so recommendations reflect what's actually on offer.</p>
+  <p class="need"><strong>From you:</strong> current card product terms, and a contact on the card origination system team.</p>
+</div>
+
+<div class="card accent">
+  <h3>Week 2 — <span class="assume">assume: scope &amp; timing</span> prove the authenticated step-up path</h3>
+  <p>Wire NetBanking session pass-through plus OTP step-up for the FD booking flow in a sandbox, so the "compare → recommend → book" hero flow works end to end for a logged-in test account.</p>
+  <p class="need"><strong>From you:</strong> sandbox NetBanking login and OTP step-up test credentials, and a point of contact on Vikram's integrations team.</p>
+</div>
+
+<div class="card accent">
+  <h3>Week 2 — <span class="assume">assume: scope &amp; timing</span> wire the mid-journey rescue against one real signal</h3>
+  <p>Surface a real in-progress card application on login, so the assistant can say "want to finish your Voyage application?" against actual data rather than a scripted example.</p>
+  <p class="need"><strong>From you:</strong> read access to in-progress application status for a test account. <span class="assume">assume: read-only status, not resuming submission yet</span></p>
+</div>
+
+<div class="card accent">
+  <h3>Week 2 — <span class="assume">assume: scope &amp; timing</span> stand up audit logging</h3>
+  <p>Log every turn that touches customer data — who asked, what was shown, when — so the compliance requirement is provable from day one rather than retrofitted.</p>
+  <p class="need"><strong>From you:</strong> agreement on where audit logs should land (e.g. Salesforce or a dedicated log store). <span class="assume">assume: destination undecided</span></p>
+</div>
+
+<h2>30 / 60 / 90 day milestones</h2>
+<ul class="timeline">
+  <li>
+    <p class="h">30 days <span class="assume">assume</span></p>
+    <p>FD Compare-and-Book live for a pilot group of prospective visitors, wired to the real Rates Service, with the OTP step-up flow proven end to end. <span class="assume">assume: pilot segment size/definition not yet set</span></p>
+  </li>
+  <li>
+    <p class="h">60 days <span class="assume">assume</span></p>
+    <p>Card Recommend-and-Apply live alongside FD, with the mid-journey rescue wired against the card origination system, and audit logging running in production for both flows. <span class="assume">assume: excludes home/car loans, pending the v1 loan-scope decision</span></p>
+  </li>
+  <li>
+    <p class="h">90 days <span class="assume">assume</span></p>
+    <p>Basic servicing (balance inquiry, KYC status, application tracking) added for logged-in customers, plus a first pass at personal loan eligibility if greenlit. Card completion-rate and call-deflection metrics tracked against the Recap's targets. <span class="assume">assume: depends on the loan-scope and KYC source-of-truth decisions landing first</span></p>
+  </li>
+</ul>
+
+<h2>What we need from you</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What we need</th><th>Unlocks</th></tr>
+<tr><td>Read access to the Rates Service (sandbox or read-only)</td><td>Week 1 FD wiring; the 30-day pilot</td></tr>
+<tr><td>Current card product terms + a card-origination-system contact</td><td>Week 1 card recommendation wiring</td></tr>
+<tr><td>Sandbox NetBanking login + OTP step-up test credentials</td><td>Week 2 authenticated path; the 30-day step-up proof</td></tr>
+<tr><td>Read access to in-progress application status</td><td>Week 2 mid-journey rescue; the 60-day rescue rollout</td></tr>
+<tr><td>Agreement on audit log schema/destination</td><td>Week 2 audit logging; the 60-90 day compliance requirement</td></tr>
+<tr><td>A named contact on core banking (Corvus/LedgerOne) for the FD-booking architecture question</td><td>Resolving direct-booking vs. handoff before the pilot</td></tr>
+</table>
+</div>
+<p class="meta">Here's how fast we can move once these are in place — not homework, the unlock for the plan above.</p>
+
+<h2>Proposed next laps</h2>
+<p class="meta">Proposed next steps to validate with you — a starting backlog, not committed scope. List only; nothing here files or calls anything.</p>
+<ul class="laps">
+  <li><strong>Resolve FD booking architecture.</strong> Decide direct-to-Corvus submission vs. handoff to the existing booking form at the last step.</li>
+  <li><strong>Confirm Rates Service cadence.</strong> Real-time vs. batch for FD and loan rates, and design the assistant's freshness messaging around it.</li>
+  <li><strong>Resolve KYC status source of truth.</strong> Reconcile Corvus vs. Salesforce so the assistant reads one trusted answer.</li>
+  <li><strong>Scope v1 loan eligibility.</strong> Decide whether personal loan alone (or more) belongs in the first release.</li>
+  <li><strong>Design the human handoff.</strong> How the assistant escalates to Salesforce live chat with context when it can't help.</li>
+</ul>
+
+<h2>Open questions &amp; assumptions to validate</h2>
+<footer class="ledger">
+<ul>
+  <li><span class="assume">assume</span> All Week 1/Week 2 scope and sequencing is a proposal, not a committed plan.</li>
+  <li><span class="assume">assume</span> Sandbox access to the Rates Service is assumed to exist but hasn't been confirmed.</li>
+  <li><span class="assume">assume</span> All 30/60/90 horizons and their scope are directional, pending the open decisions below.</li>
+  <li><span class="assume">assume</span> The 60-day and 90-day scope explicitly excludes home/car loans and any loan beyond personal, pending the v1 loan-scope decision — not yet made.</li>
+  <li><span class="assume">assume</span> Audit log destination (Salesforce vs. a dedicated store) is undecided.</li>
+  <li><span class="assume">assume</span> Whether FD booking submits directly to Corvus or hands off to the existing form — open architectural fork, not decided.</li>
+  <li><span class="assume">assume</span> Rates Service real-time-vs-batch cadence needs confirming with the treasury team.</li>
+  <li><span class="assume">assume</span> KYC status source of truth (Corvus vs. Salesforce) is unresolved.</li>
+  <li><span class="assume">assume</span> Language support beyond English, and the human-handoff design, remain parked and are not reflected as committed scope anywhere in this plan.</li>
+</ul>
+</footer>
+
+</main></body></html>

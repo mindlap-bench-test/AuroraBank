@@ -1,0 +1,485 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora Bank — Online Banking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ml-red:#a20b0b; --ml-red-dark:#610707; --ml-red-light:#e55e5e; --ml-red-lightest:#f6c9c9;
+  --ml-blue:#1c5386; --ml-blue-dark:#193856; --ml-blue-light:#1e5f9b; --ml-blue-lighter:#8ba8c9; --ml-blue-lightest:#dce3eb;
+  --ml-grey:#9c9c9c; --ml-grey-dark:#5c5c5c; --ml-grey-light:#bcbcbc; --ml-grey-lightest:#e4e4e4; --ml-grey-divider:#d9d9d9;
+  --black-900:#1b1b1b; --black-800:#212121; --black-700:#2f2f2f; --black-400:#4e4e4e;
+  --white-100:#fefefe; --white-200:#f7f9fa; --white-300:#eceef0;
+  --u-danger:#dc2626; --u-success:#16a34a; --u-warning:#f59e0b;
+  --status-open:#3d4552; --status-todo:#4b24d6; --status-inprogress:#0080b8;
+  --status-inreview:#b86a00; --status-done:#0d8a3a; --status-cancelled:#8a8a8a; --status-failed:#c0392b;
+  --type-story:#c98200; --type-bug:#b04a2c; --type-lap:#7048a0; --type-review:#2b7a7d; --type-agent:#1d8b6d;
+  --bg:var(--white-300); --paper:var(--white-200); --card:var(--white-100);
+  --ink:var(--black-900); --ink-soft:var(--black-400); --ink-faint:var(--ml-grey-dark);
+  --line:var(--ml-grey-divider); --line-soft:var(--ml-grey-lightest);
+  --code-bg:var(--white-200); --code-ink:var(--black-700);
+  --fire:var(--ml-red); --fire-bg:color-mix(in srgb, var(--ml-red) 7%, var(--white-100));
+  --cloud:var(--ml-blue); --cloud-bg:var(--ml-blue-lightest);
+  --good:#157f3b; --good-bg:color-mix(in srgb, var(--u-success) 12%, var(--white-100));
+  --warn:#8a5a00; --warn-bg:color-mix(in srgb, var(--u-warning) 16%, var(--white-100));
+  --bad:#b3241b; --bad-bg:color-mix(in srgb, var(--u-danger) 8%, var(--white-100));
+  --shadow:0 1px 2px rgba(27,27,27,.05), 0 4px 14px rgba(27,27,27,.05);
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --display:"Exo 2","Inter",ui-sans-serif,system-ui,sans-serif;
+  --pill-alpha:14%;
+  --accent:#0f6e5c; --accent-bg:#dcefe9;
+}
+@media (prefers-color-scheme:dark){ :root{
+  --bg:var(--black-900); --paper:var(--black-800); --card:#202020;
+  --ink:var(--white-200); --ink-soft:#cfcfcf; --ink-faint:var(--ml-grey);
+  --line:#333; --line-soft:#2a2a2a; --code-bg:#161616; --code-ink:#d6d6d6;
+  --fire:var(--ml-red-light); --cloud:var(--ml-blue-light);
+  --good:#3fbf6f; --warn:#e0a53a; --bad:#ef6b60;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 6px 20px rgba(0,0,0,.4); --pill-alpha:22%;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+
+.site-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--paper);border-bottom:1px solid var(--line);flex-wrap:wrap;gap:10px;position:relative;z-index:10}
+.brand{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--accent)}
+.nav-links{display:flex;gap:18px;flex-wrap:wrap;font-size:.88rem;color:var(--ink-soft)}
+
+.hero{padding:48px 20px;text-align:center;background:var(--accent-bg)}
+.hero h1{font-family:var(--display);font-size:1.6rem;margin:0 0 .4em;color:var(--ink)}
+.hero p{margin:0;color:var(--ink-soft);font-size:1rem;max-width:520px;margin-inline:auto}
+
+.sections-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:24px 20px;max-width:1080px;margin:0 auto}
+.page-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow);transition:box-shadow .3s,border-color .3s}
+.page-card.flash{box-shadow:0 0 0 3px var(--accent), var(--shadow);border-color:var(--accent)}
+.page-card h2{font-family:var(--display);font-size:1.05rem;margin:0 0 .5em}
+.page-card p{font-size:.9rem;color:var(--ink-soft);margin:0 0 .5em}
+.rate-teaser{list-style:none;padding:0;margin:.4em 0 0;font-size:.84rem}
+.rate-teaser li{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--line-soft)}
+.card-teaser{display:flex;flex-direction:column;gap:6px;margin-top:.4em}
+.card-chip{font-size:.8rem;font-weight:600;color:var(--accent)}
+
+.site-footer{padding:20px;text-align:center;color:var(--ink-faint);font-size:.82rem;border-top:1px solid var(--line)}
+
+table{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.85rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.64rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint)}
+.p-tablewrap{overflow-x:auto}
+
+.pill{display:inline-block;font-family:var(--mono);font-size:.64rem;font-weight:600;letter-spacing:.03em;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.pill.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-bg)}
+.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-bg)}
+.pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-bg)}
+
+.switcher{position:fixed;top:14px;right:14px;display:flex;gap:4px;background:var(--card);padding:4px;border-radius:999px;border:1px solid var(--line);box-shadow:var(--shadow);z-index:80}
+.switch-btn{border:none;background:none;padding:6px 12px;border-radius:999px;font-size:.76rem;font-weight:600;color:var(--ink-soft);cursor:pointer;font-family:var(--sans)}
+.switch-btn.on{background:var(--accent);color:#fff}
+
+.widget-fab{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);cursor:pointer;z-index:90}
+.widget-fab svg{width:26px;height:26px}
+
+.widget-panel{display:none;flex-direction:column;position:fixed;bottom:20px;right:20px;width:360px;max-width:calc(100vw - 24px);height:520px;max-height:70vh;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);z-index:90;overflow:hidden}
+.widget-panel.open{display:flex}
+.widget-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--accent);color:#fff;font-family:var(--display);font-weight:600;font-size:.92rem}
+.widget-close{background:none;border:none;color:#fff;font-size:1rem;cursor:pointer;line-height:1;padding:2px 6px}
+
+#chat-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:2px}
+.msg{max-width:82%;padding:8px 12px;border-radius:14px;margin:4px 0;font-size:.86rem;line-height:1.42;white-space:pre-wrap}
+.msg.bot{background:var(--accent-bg);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.chip{border:1px solid var(--accent);background:var(--accent-bg);color:var(--accent);border-radius:999px;padding:6px 12px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.chip:hover{background:var(--accent);color:#fff}
+
+#pills{display:flex;gap:8px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--line-soft)}
+.pill-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:999px;padding:6px 12px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.pill-btn:hover{background:var(--accent);color:#fff}
+
+.widget-input{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line-soft)}
+.widget-input input{flex:1;border:1px solid var(--line);border-radius:999px;padding:8px 14px;font:inherit;background:var(--bg);color:var(--ink)}
+.widget-input button{border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 16px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+
+.panel-dock{display:none;position:fixed;bottom:20px;right:396px;width:320px;max-height:70vh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px;z-index:85}
+.panel-dock.open{display:block}
+.panel-dock .muted{color:var(--ink-faint);font-size:.86rem}
+
+.p-title{font-family:var(--display);font-size:1rem;margin:0 0 .5em;color:var(--ink)}
+.p-row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line-soft);font-size:.86rem}
+.p-row:last-of-type{border-bottom:none}
+.p-note{font-size:.8rem;color:var(--ink-soft);margin:.6em 0 0}
+
+@media (max-width:640px){
+  .switcher{top:10px;right:10px}
+  .widget-fab{bottom:14px;right:14px}
+  .widget-panel{right:0;left:0;bottom:0;width:100%;max-width:100%;height:78vh;max-height:78vh;border-radius:16px 16px 0 0}
+  .panel-dock{left:8px;right:8px;width:auto;bottom:calc(78vh + 8px);max-height:26vh}
+  .hero{padding:32px 16px}
+  .sections-grid{padding:16px}
+}
+</style></head>
+<body>
+
+<div class="switcher" id="switcher">
+  <button class="switch-btn" data-key="advisor">Advisor</button>
+  <button class="switch-btn" data-key="netbanking">NetBanking</button>
+</div>
+
+<nav class="site-nav">
+  <div class="brand" id="nav-brand">Aurora Bank</div>
+  <div class="nav-links" id="nav-links"></div>
+</nav>
+
+<section class="hero">
+  <h1 id="hero-title"></h1>
+  <p id="hero-subtitle"></p>
+</section>
+
+<section class="sections-grid" id="page-sections"></section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<div class="panel-dock" id="panel"></div>
+
+<button class="widget-fab" id="widget-fab" aria-label="Open assistant">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</button>
+
+<div class="widget-panel" id="widget-panel">
+  <div class="widget-hd">
+    <span id="widget-title">Assistant</span>
+    <button class="widget-close" id="widget-close" aria-label="Close assistant">&#10005;</button>
+  </div>
+  <div id="chat-log"></div>
+  <div id="pills"></div>
+  <div class="widget-input">
+    <input id="chat-input" type="text" placeholder="Type a message…" autocomplete="off">
+    <button id="chat-send">Send</button>
+  </div>
+</div>
+
+<script>
+/* ---------- panel content (mock, in-world — not tagged; see grounding note in the skill) ---------- */
+const FD_TABLE_HTML = `
+  <h3 class="p-title">Compare FD tenures — ₹5,00,000</h3>
+  <div class="p-tablewrap"><table>
+    <tr><th>Tenure</th><th>Rate</th><th>Maturity value</th></tr>
+    <tr><td>6 months</td><td>6.50%</td><td>₹5,16,250</td></tr>
+    <tr><td>1 year</td><td>7.10%</td><td>₹5,35,500</td></tr>
+    <tr><td><b>15-month special</b></td><td><b>7.40%</b></td><td><b>₹5,46,250</b></td></tr>
+    <tr><td>3 years</td><td>6.90%</td><td>₹6,10,500</td></tr>
+  </table></div>
+  <p class="p-note"><span class="pill good">Recommended</span> 15-month special — best yield for similar liquidity.</p>`;
+
+const WELCOME_BACK_HTML = `
+  <h3 class="p-title">Welcome back</h3>
+  <p class="p-row"><span>Login</span><span class="pill good">Verified</span></p>
+  <p class="p-row"><span>Open application</span><span class="pill warn">Aurora Voyage — 80% complete</span></p>
+  <p class="p-note">Started 4 days ago. Income details are already on file.</p>`;
+
+const FD_BOOKED_HTML = `
+  <h3 class="p-title">FD booked</h3>
+  <p class="p-row"><span>Amount</span><span>₹5,00,000</span></p>
+  <p class="p-row"><span>Tenure</span><span>15 months</span></p>
+  <p class="p-row"><span>Rate</span><span>7.40%</span></p>
+  <p class="p-row"><span>Status</span><span class="pill good">Confirmed</span></p>`;
+
+const APPLICATION_PROGRESS_HTML = `
+  <h3 class="p-title">Aurora Voyage application</h3>
+  <p class="p-row"><span>Personal &amp; income details</span><span class="pill good">Done</span></p>
+  <p class="p-row"><span>Travel preferences</span><span class="pill warn">Remaining</span></p>
+  <p class="p-row"><span>E-sign</span><span class="pill warn">Remaining</span></p>`;
+
+const APPLICATION_SUBMITTED_HTML = `
+  <h3 class="p-title">Aurora Voyage application</h3>
+  <p class="p-row"><span>Status</span><span class="pill good">Submitted for review</span></p>
+  <p class="p-note">You'll hear back by email. Ask anytime for a status update.</p>`;
+
+const CARD_COMPARE_HTML = `
+  <h3 class="p-title">Cards for a Europe trip</h3>
+  <div class="p-tablewrap"><table>
+    <tr><th>Card</th><th>Best for</th><th>Annual fee</th></tr>
+    <tr><td><b>Aurora Voyage</b></td><td>Travel — no forex markup, lounge access</td><td>₹3,500</td></tr>
+    <tr><td>Aurora Everyday</td><td>Cashback on daily spend</td><td>₹0</td></tr>
+    <tr><td>Aurora Infinia</td><td>Premium perks &amp; concierge</td><td>₹10,000</td></tr>
+  </table></div>
+  <p class="p-note"><span class="pill good">Recommended</span> Aurora Voyage — best fit for international travel.</p>`;
+
+const BALANCES_HTML = `
+  <h3 class="p-title">Your balances</h3>
+  <p class="p-row"><span>Savings •••4821</span><span>₹1,42,380</span></p>
+  <p class="p-row"><span>Current •••1187</span><span>₹28,940</span></p>
+  <p class="p-row"><span>Fixed deposits (2)</span><span>₹8,00,000</span></p>`;
+
+const KYC_HTML = `
+  <h3 class="p-title">KYC status</h3>
+  <p class="p-row"><span>Status</span><span class="pill warn">Renewal due in 12 days</span></p>
+  <p class="p-note">Re-KYC takes about 2 minutes with a photo ID.</p>`;
+
+const APPLICATION_TRACK_HTML = `
+  <h3 class="p-title">Your applications</h3>
+  <p class="p-row"><span>Aurora Voyage credit card</span><span class="pill warn">In review</span></p>
+  <p class="p-note">Submitted 2 days ago — typically a decision within 3-5 business days.</p>`;
+
+/* ---------- variants ---------- */
+const VARIANTS = {
+  advisor: {
+    label: "Aurora Advisor",
+    pageTitle: "Aurora Bank — Save, Borrow, Grow",
+    accent: "#0f6e5c",
+    accentBg: "#dcefe9",
+    greeting: "Hi — I can compare fixed deposits or help you find the right card.",
+    panelEmpty: "<p class='muted'>Ask me something — like comparing FD rates or finding a card — to see details here.</p>",
+    page: {
+      navBrand: "Aurora Bank",
+      navLinks: ["Deposits", "Cards", "Loans", "Log in"],
+      heroTitle: "Grow your money, without the maze.",
+      heroSubtitle: "Compare deposits, find the right card, and get answers — all in one conversation.",
+      footer: "Aurora Bank — NetBanking, Cards & Loans, Support.",
+      sections: [
+        { id: "deposits", title: "Fixed Deposits", body: `<p>Tenures from 6 months to 5 years. Compare rates and book in minutes.</p>
+          <ul class="rate-teaser"><li><span>1 year</span><span>7.10%</span></li><li><span>15-month special</span><span>7.40%</span></li><li><span>3 years</span><span>6.90%</span></li></ul>` },
+        { id: "cards", title: "Credit Cards", body: `<p>Find the card that matches how you spend.</p>
+          <div class="card-teaser"><span class="card-chip">Aurora Voyage — travel</span><span class="card-chip">Aurora Everyday — cashback</span><span class="card-chip">Aurora Infinia — premium</span></div>` },
+        { id: "loans", title: "Loans", body: `<p>Personal, home, and car loans — check eligibility and indicative rates.</p>` }
+      ]
+    },
+    pills: ["compareFd", "recommendCard"],
+    flows: {
+      compareFd: {
+        pill: "Compare FD rates",
+        steps: [
+          { say: "Sure — let's compare fixed deposit tenures for ₹5,00,000." },
+          { panel: FD_TABLE_HTML, goto: "#deposits" },
+          { say: "The 15-month special is at 7.40%, ahead of the standard 1-year at 7.10% — I'd recommend the 15-month for the extra yield with similar liquidity." },
+          { chips: [ {label:"Book the 15-month FD", flow:"bookFd"}, {label:"Also check a credit card", flow:"recommendCard"} ] }
+        ]
+      },
+      bookFd: {
+        pill: "Book the FD",
+        steps: [
+          { say: "Booking an FD moves money, so I'll need you to log in and verify with an OTP first." },
+          { chips: [ {label:"Log in with OTP", flow:"loginStepUp"} ] }
+        ]
+      },
+      loginStepUp: {
+        pill: "Log in",
+        steps: [
+          { say: "Sending a one-time password to your registered mobile…", wait: 500 },
+          { say: "Verified. Welcome back!" },
+          { panel: WELCOME_BACK_HTML, goto: "#cards" },
+          { say: "Before I book your FD — I noticed you started an Aurora Voyage card application a few days ago and didn't finish it. Want to pick that up too?" },
+          { chips: [ {label:"Finish Voyage application", flow:"resumeVoyage"}, {label:"Just book the FD for now", flow:"confirmBookFd"} ] }
+        ]
+      },
+      confirmBookFd: {
+        pill: "Confirm FD booking",
+        steps: [
+          { say: "Booking ₹5,00,000 into the 15-month Aurora FD special at 7.40%…", wait: 500 },
+          { panel: FD_BOOKED_HTML, goto: "#deposits" },
+          { say: "Done — your FD is booked. It'll reflect in NetBanking shortly." },
+          { chips: [ {label:"Now finish my Voyage application", flow:"resumeVoyage"}, {label:"Recommend a card", flow:"recommendCard"} ] }
+        ]
+      },
+      resumeVoyage: {
+        pill: "Resume Voyage application",
+        steps: [
+          { say: "Picking up your Aurora Voyage application right where you left off — income details are already in, just travel preferences and e-sign remain." },
+          { panel: APPLICATION_PROGRESS_HTML, goto: "#cards" },
+          { chips: [ {label:"Continue application", flow:"finishVoyageApp"} ] }
+        ]
+      },
+      finishVoyageApp: {
+        pill: "Continue application",
+        steps: [
+          { say: "Quick one — do you travel internationally more than twice a year?", wait: 400 },
+          { say: "Got it, noted. Submitting your Voyage application for review now." },
+          { panel: APPLICATION_SUBMITTED_HTML, goto: "#cards" },
+          { say: "You'll get a decision by email, and I can check status here anytime." },
+          { chips: [ {label:"Compare another FD", flow:"compareFd"}, {label:"Recommend a card", flow:"recommendCard"} ] }
+        ]
+      },
+      recommendCard: {
+        pill: "Recommend a card",
+        steps: [
+          { say: "Happy to help — since you mentioned a Europe trip, let's start there." },
+          { panel: CARD_COMPARE_HTML, goto: "#cards" },
+          { say: "For a Europe trip, Aurora Voyage is the strongest fit — no forex markup and airport lounge access." },
+          { chips: [ {label:"Apply for Voyage", flow:"applyVoyage"}, {label:"Compare an FD instead", flow:"compareFd"} ] }
+        ]
+      },
+      applyVoyage: {
+        pill: "Apply for Voyage",
+        steps: [
+          { say: "Applying needs a quick login and KYC check first." },
+          { chips: [ {label:"Log in with OTP", flow:"loginStepUp"} ] }
+        ]
+      }
+    }
+  },
+
+  netbanking: {
+    label: "NetBanking Assistant",
+    pageTitle: "Aurora NetBanking — Secure Customer Portal",
+    accent: "#1c5386",
+    accentBg: "#dce3eb",
+    greeting: "Hi Aditi — I can check your balance, KYC status, or an application.",
+    panelEmpty: "<p class='muted'>Ask about your balance, KYC status, or an application to see details here.</p>",
+    page: {
+      navBrand: "Aurora NetBanking",
+      navLinks: ["Accounts", "Cards", "Applications", "Support"],
+      heroTitle: "Welcome back, Aditi.",
+      heroSubtitle: "Here's what's happening with your accounts.",
+      footer: "Aurora NetBanking — Secure customer portal.",
+      sections: [
+        { id: "accounts", title: "Accounts", body: `<p>View balances and recent activity across savings, current, and fixed deposits.</p>` },
+        { id: "applications", title: "Applications", body: `<p>Track applications you've started — cards, loans, and more.</p>` },
+        { id: "kyc", title: "KYC & Verification", body: `<p>Keep your KYC current to avoid account restrictions.</p>` }
+      ]
+    },
+    pills: ["checkBalance", "kycStatus"],
+    flows: {
+      checkBalance: {
+        pill: "Check my balance",
+        steps: [
+          { say: "Checking your account balances…", wait: 400 },
+          { panel: BALANCES_HTML, goto: "#accounts" },
+          { say: "Your savings account balance is ₹1,42,380 as of today." },
+          { chips: [ {label:"Check my KYC status", flow:"kycStatus"}, {label:"Track my card application", flow:"trackApplication"} ] }
+        ]
+      },
+      kycStatus: {
+        pill: "Check my KYC status",
+        steps: [
+          { say: "Looking up your KYC status…", wait: 400 },
+          { panel: KYC_HTML, goto: "#kyc" },
+          { say: "Your KYC is due for renewal in 12 days — I can start that now, or remind you later." },
+          { chips: [ {label:"Remind me later", flow:"remindLater"}, {label:"Track my card application", flow:"trackApplication"} ] }
+        ]
+      },
+      trackApplication: {
+        pill: "Track my application",
+        steps: [
+          { say: "Pulling up your open applications…", wait: 400 },
+          { panel: APPLICATION_TRACK_HTML, goto: "#applications" },
+          { say: "Your Aurora Voyage card application is in review — typically a decision within 3-5 business days." },
+          { chips: [ {label:"Check my balance", flow:"checkBalance"}, {label:"Check my KYC status", flow:"kycStatus"} ] }
+        ]
+      },
+      remindLater: {
+        pill: "Remind me later",
+        steps: [
+          { say: "No problem — I'll remind you before it expires." },
+          { chips: [ {label:"Check my balance", flow:"checkBalance"}, {label:"Track my card application", flow:"trackApplication"} ] }
+        ]
+      }
+    }
+  }
+};
+
+/* ---------- flow runner (walks a steps[] array) ---------- */
+const STATE = { variant: null };
+const log   = document.querySelector('#chat-log');
+const panel = document.querySelector('#panel');
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function bubble(text, who){
+  const el = Object.assign(document.createElement('div'), { className: 'msg ' + who, textContent: text });
+  log.append(el); log.scrollTop = log.scrollHeight; return el;
+}
+async function stream(text){
+  const el = bubble('', 'bot');
+  for (const ch of text){ el.textContent += ch; await sleep(12); }
+  log.scrollTop = log.scrollHeight;
+}
+function flash(sel){
+  const s = document.querySelector(sel); if (!s) return;
+  s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  s.classList.add('flash'); setTimeout(() => s.classList.remove('flash'), 1500);
+}
+function chips(items){
+  const row = document.createElement('div'); row.className = 'chips';
+  for (const c of items){
+    const b = Object.assign(document.createElement('button'), { className: 'chip', textContent: c.label });
+    b.onclick = () => { row.remove(); bubble(c.label, 'user'); runFlow(c.flow); };
+    row.append(b);
+  }
+  log.append(row); log.scrollTop = log.scrollHeight;
+}
+async function runFlow(id){
+  const flow = STATE.variant.flows[id]; if (!flow) return;
+  for (const s of flow.steps){
+    if (s.say)   await stream(s.say);
+    if (s.panel) panel.innerHTML = s.panel;
+    if (s.goto)  flash(s.goto);
+    if (s.chips) chips(s.chips);
+    await sleep(s.wait ?? 300);
+  }
+}
+
+/* ---------- page shell + widget wiring ---------- */
+function applyPageCopy(page){
+  document.getElementById('nav-brand').textContent = page.navBrand;
+  document.getElementById('nav-links').innerHTML = page.navLinks.map(l => `<span>${l}</span>`).join('');
+  document.getElementById('hero-title').textContent = page.heroTitle;
+  document.getElementById('hero-subtitle').textContent = page.heroSubtitle;
+  document.getElementById('page-sections').innerHTML = page.sections.map(s =>
+    `<section id="${s.id}" class="page-card"><h2>${s.title}</h2>${s.body}</section>`
+  ).join('');
+  document.getElementById('site-footer').textContent = page.footer;
+}
+
+function openWidget(){
+  document.getElementById('widget-fab').style.display = 'none';
+  document.getElementById('widget-panel').classList.add('open');
+  document.getElementById('panel').classList.add('open');
+}
+function closeWidget(){
+  document.getElementById('widget-fab').style.display = 'flex';
+  document.getElementById('widget-panel').classList.remove('open');
+  document.getElementById('panel').classList.remove('open');
+}
+
+function setVariant(key){
+  const v = VARIANTS[key]; STATE.variant = v;
+  document.title = v.pageTitle;
+  document.documentElement.style.setProperty('--accent', v.accent);
+  document.documentElement.style.setProperty('--accent-bg', v.accentBg);
+  applyPageCopy(v.page);
+  document.getElementById('widget-title').textContent = v.label;
+  log.innerHTML = ''; panel.innerHTML = v.panelEmpty;
+  document.querySelectorAll('.switch-btn').forEach(b => b.classList.toggle('on', b.dataset.key === key));
+  bubble(v.greeting, 'bot');
+  const row = document.getElementById('pills'); row.innerHTML = '';
+  for (const id of v.pills){
+    const b = Object.assign(document.createElement('button'), { className: 'pill-btn', textContent: v.flows[id].pill });
+    b.onclick = () => { bubble(v.flows[id].pill, 'user'); runFlow(id); };
+    row.append(b);
+  }
+}
+
+function sendMessage(){
+  const input = document.getElementById('chat-input');
+  const val = input.value.trim(); if (!val) return;
+  bubble(val, 'user'); input.value = '';
+  stream("Let's use one of the options below to keep this demo focused.").then(() => {
+    chips(STATE.variant.pills.map(id => ({ label: STATE.variant.flows[id].pill, flow: id })));
+  });
+}
+
+document.getElementById('widget-fab').onclick = openWidget;
+document.getElementById('widget-close').onclick = closeWidget;
+document.getElementById('chat-send').onclick = sendMessage;
+document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+document.querySelectorAll('.switch-btn').forEach(b => b.onclick = () => setVariant(b.dataset.key));
+
+(function boot(){
+  const m = (location.hash.match(/flow=([\w-]+)(?:\.([\w-]+))?/) || []).slice(1);
+  const key = VARIANTS[m[0]] ? m[0] : Object.keys(VARIANTS)[0];
+  setVariant(key);
+  if (m[1]) { openWidget(); runFlow(m[1]); }
+})();
+</script>
+</body></html>
