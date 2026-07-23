@@ -1,0 +1,148 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora Bank — Discovery Recap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ml-red:#a20b0b; --ml-red-dark:#610707; --ml-red-light:#e55e5e; --ml-red-lightest:#f6c9c9;
+  --ml-blue:#1c5386; --ml-blue-dark:#193856; --ml-blue-light:#1e5f9b; --ml-blue-lighter:#8ba8c9; --ml-blue-lightest:#dce3eb;
+  --ml-grey:#9c9c9c; --ml-grey-dark:#5c5c5c; --ml-grey-light:#bcbcbc; --ml-grey-lightest:#e4e4e4; --ml-grey-divider:#d9d9d9;
+  --black-900:#1b1b1b; --black-800:#212121; --black-700:#2f2f2f; --black-400:#4e4e4e;
+  --white-100:#fefefe; --white-200:#f7f9fa; --white-300:#eceef0;
+  --u-danger:#dc2626; --u-success:#16a34a; --u-warning:#f59e0b;
+  --status-open:#3d4552; --status-todo:#4b24d6; --status-inprogress:#0080b8;
+  --status-inreview:#b86a00; --status-done:#0d8a3a; --status-cancelled:#8a8a8a; --status-failed:#c0392b;
+  --type-story:#c98200; --type-bug:#b04a2c; --type-lap:#7048a0; --type-review:#2b7a7d; --type-agent:#1d8b6d;
+  --bg:var(--white-300); --paper:var(--white-200); --card:var(--white-100);
+  --ink:var(--black-900); --ink-soft:var(--black-400); --ink-faint:var(--ml-grey-dark);
+  --line:var(--ml-grey-divider); --line-soft:var(--ml-grey-lightest);
+  --code-bg:var(--white-200); --code-ink:var(--black-700);
+  --fire:var(--ml-red); --fire-bg:color-mix(in srgb, var(--ml-red) 7%, var(--white-100));
+  --cloud:var(--ml-blue); --cloud-bg:var(--ml-blue-lightest);
+  --good:#157f3b; --good-bg:color-mix(in srgb, var(--u-success) 12%, var(--white-100));
+  --warn:#8a5a00; --warn-bg:color-mix(in srgb, var(--u-warning) 16%, var(--white-100));
+  --bad:#b3241b; --bad-bg:color-mix(in srgb, var(--u-danger) 8%, var(--white-100));
+  --shadow:0 1px 2px rgba(27,27,27,.05), 0 4px 14px rgba(27,27,27,.05);
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --display:"Exo 2","Inter",ui-sans-serif,system-ui,sans-serif;
+  --pill-alpha:14%;
+  --accent:#0f6e5c; --accent-bg:#dcefe9;
+}
+@media (prefers-color-scheme:dark){ :root{
+  --bg:var(--black-900); --paper:var(--black-800); --card:#202020;
+  --ink:var(--white-200); --ink-soft:#cfcfcf; --ink-faint:var(--ml-grey);
+  --line:#333; --line-soft:#2a2a2a; --code-bg:#161616; --code-ink:#d6d6d6;
+  --fire:var(--ml-red-light); --cloud:var(--ml-blue-light);
+  --good:#3fbf6f; --warn:#e0a53a; --bad:#ef6b60;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 6px 20px rgba(0,0,0,.4); --pill-alpha:22%;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.62;font-size:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 64px}
+h1,h2,h3{font-family:var(--display);line-height:1.2}
+h1{font-size:1.7rem;margin:.2em 0 .1em} h2{font-size:1.2rem;margin:2rem 0 .6rem}
+a{color:var(--fire);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fire) 40%,transparent)}
+code{font-family:var(--mono);font-size:.86em;background:var(--code-bg);border:1px solid var(--line-soft);border-radius:5px;padding:.06em .34em;color:var(--code-ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:1rem 0;box-shadow:var(--shadow)}
+.card.accent{border-left:3px solid var(--accent)}
+.pill{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.03em;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.pill.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-bg)}
+.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-bg)}
+.pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-bg)}
+.assume{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-bg);
+  display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:600;padding:1px 7px;border:1px solid;border-radius:999px}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+.table-wrap{overflow-x:auto}
+.lede{color:var(--ink-soft);font-size:1.02rem;margin:.3em 0}
+.meta{color:var(--ink-faint);font-size:.8rem;margin:.2em 0 0}
+blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--accent);background:var(--accent-bg);border-radius:0 8px 8px 0;font-style:italic;color:var(--ink-soft)}
+.usecase{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.usecase:last-child{border-bottom:none}
+.usecase .who{color:var(--ink-soft);font-size:.9rem}
+footer.ledger ul{padding-left:1.1em}
+footer.ledger li{margin:.35em 0}
+</style></head><body><main class="wrap">
+
+<header>
+  <h1><span style="color:var(--accent)">Aurora Bank</span> — Discovery Recap</h1>
+  <p class="lede">What we heard in the discovery call, played back in your words.</p>
+  <p class="meta">Discovery draft · illustrative · to validate with Aurora Bank.</p>
+</header>
+
+<h2>The problem</h2>
+<blockquote>"The website is a maze. If you want to compare FD rates, book one, and also look at a credit card, that's&nbsp;&mdash;&nbsp;four, five different sections?" &mdash; Rohan Desai, Head of Digital Channels</blockquote>
+<p>Customers navigate a fragmented site — some content behind login, some not — to do things that feel like they should be one conversation. Credit card applications lose people mid-form; fixed deposit booking is "leaky" though less so. The call center absorbs volume that should be self-serve: FD maturity dates, application status, KYC status.</p>
+
+<h2>Objectives / what success looks like</h2>
+<ul>
+  <li>Lift the credit card application completion rate — a lot of people start and don't finish.</li>
+  <li>Cut product discovery time — how fast someone goes from "I have money" to "I booked an FD."</li>
+  <li>Reduce the number of pages/sections a customer has to navigate — ideally close to zero.</li>
+  <li>Deflect self-serve questions away from the call center (maturity dates, application status, KYC status).</li>
+  <li>Zero compliance incidents — "a wrong balance shown to the wrong person is worse than any conversion gain." &mdash; Sana Qureshi, Compliance &amp; Risk</li>
+</ul>
+
+<h2>Core use-cases</h2>
+<div class="usecase">
+  <div><b>FD Compare-and-Book</b><br><span class="who">Prospective &amp; existing customers — compare FD tenures/rates, get a recommendation, and book in one conversation.</span></div>
+  <span class="pill good">HERO</span>
+</div>
+<div class="usecase">
+  <div><b>Card Recommend-and-Apply</b><br><span class="who">Prospective &amp; existing customers — a few questions on spend habits, a card recommendation (Aurora Voyage / Everyday / Infinia), then a conversational application.</span></div>
+  <span class="pill good">HERO</span>
+</div>
+<div class="usecase">
+  <div><b>Loan eligibility &amp; indicative rate</b><br><span class="who">"Am I likely to qualify, and at what rate" — collect basics, hand off to start the application. <span class="assume">assume: personal loan only in v1 — scope undecided</span></span></div>
+</div>
+<div class="usecase">
+  <div><b>Basic servicing</b><br><span class="who">Existing, logged-in customers — balance inquiry, track an application, proactive re-KYC reminders.</span></div>
+</div>
+<div class="usecase">
+  <div><b>Mid-journey rescue</b><br><span class="who">Recognize a customer who started something (an FD booking, a card application) and didn't finish, and offer to pick it back up.</span></div>
+</div>
+
+<h2>Constraints &amp; context</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Thing</th><th>What they said</th></tr>
+<tr><td>Scale</td><td>~3.8 million customers, mostly individuals and small businesses.</td></tr>
+<tr><td>Products in scope</td><td>Savings/current accounts, fixed deposits, personal/home/car loans, credit cards (Aurora Voyage, Aurora Everyday, Aurora Infinia).</td></tr>
+<tr><td>Core banking</td><td><b>Corvus</b> — system of record for accounts, deposits, transactions. FD booking ultimately lands here.</td></tr>
+<tr><td>CRM / servicing</td><td><b>Salesforce</b> — customer 360, used by the call center; also hosts live chat agents.</td></tr>
+<tr><td>Legacy deposits</td><td><b>LedgerOne</b> — an AS/400-era ledger; a chunk of older FDs haven't migrated to Corvus, so "show me all my FDs" spans two systems.</td></tr>
+<tr><td>Rates</td><td>An internal, versioned <b>Rates Service</b> API (treasury team) for FD and loan indicative rates.</td></tr>
+<tr><td>Card applications</td><td>Flow through a separate card origination system.</td></tr>
+<tr><td>Auth</td><td>NetBanking login; OTP step-up required for sensitive, money-moving actions (e.g. booking an FD) even inside an authenticated session.</td></tr>
+<tr><td>KYC</td><td>CKYC (centralized registry) plus a video-KYC flow for new customers. The assistant may collect info and check status, but cannot complete KYC itself.</td></tr>
+<tr><td>Compliance</td><td>Every interaction touching customer data must be audit-logged. Fair-lending rules govern how loans are discussed; marketing/legal review the recommendation logic.</td></tr>
+</table>
+</div>
+
+<h2>Success metrics</h2>
+<ul>
+  <li><b>Card application completion rate</b> — from ~40% completing today to a target of ~60%.</li>
+  <li><b>Product discovery time</b> — time from "I have money" to "I booked an FD." <span class="assume">assume: no baseline/target number given yet</span></li>
+  <li><b>Pages/sections navigated per task</b> — ideally close to zero. <span class="assume">assume: no baseline number given yet</span></li>
+  <li><b>Call center deflection</b> — fewer self-serve calls (maturity dates, application status, KYC status).</li>
+  <li><b>Zero compliance incidents</b> — no account-specific data shown to the wrong person.</li>
+</ul>
+
+<h2>Open questions &amp; assumptions to validate</h2>
+<footer class="ledger">
+<ul>
+  <li><span class="assume">assume</span> Whether the assistant submits an FD booking directly into Corvus, or hands off to the existing booking form at the last step — an open architectural fork, not yet decided.</li>
+  <li><span class="assume">assume</span> Which loan types belong in v1 — personal loan eligibility is the safer self-serve starting point; home and car loans have a heavier offline/relationship-manager component. Not decided.</li>
+  <li><span class="assume">assume</span> Whether the Rates Service is real-time or batch — the team believes FD rates update intraday and loan rates are a morning batch, but this needs confirming.</li>
+  <li><span class="assume">assume</span> Where KYC status truth lives — Corvus and Salesforce both hold it and don't always agree; source of truth is unresolved.</li>
+  <li><span class="assume">assume</span> Language support beyond English (Hindi and regional languages) — raised as a real need but not yet scoped. Parked.</li>
+  <li><span class="assume">assume</span> Human handoff design — live chat agents exist in Salesforce and a handoff should ideally carry context, but this hasn't been designed. Parked.</li>
+</ul>
+</footer>
+
+</main></body></html>
